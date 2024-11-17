@@ -16,8 +16,6 @@ cmake ..
 
 make
 
-cd /work
-
 cd /workspaces/wasm-micro-runtime/
 
 cd test
@@ -47,3 +45,29 @@ mkdir build && cd build
 cmake .. -DWAMR_BUILD_JIT=1
 
 make
+
+TODO
+
+# Build Fast JIT
+
+cd /workspaces/wasm-micro-runtime/
+
+cd product-mini/platforms/linux/
+
+rm -rf build
+
+mkdir build && cd build
+
+cmake .. -DWAMR_BUILD_FAST_JIT=1
+
+make
+
+cd /workspaces/wasm-micro-runtime/
+
+cd test
+
+```
+$ time ../product-mini/platforms/linux/build/iwasm -f fib fib32.wasm 40
+0x6197ecb:i32
+real    0m1.558s
+```
