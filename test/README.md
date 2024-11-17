@@ -1,3 +1,5 @@
+wget https://github.com/phucvin/wasm3/raw/refs/heads/main/test/lang/fib32.wasm
+
 cd ..
 
 uname -a
@@ -16,40 +18,36 @@ cmake ..
 
 make
 
-cd /workspaces/wasm-micro-runtime/
+ls -lh iwasm
 
-cd test
-
-wget https://github.com/phucvin/wasm3/raw/refs/heads/main/test/lang/fib32.wasm
+> 384K
 
 ```
-$ time ../product-mini/platforms/linux/build/iwasm -f fib fib32.wasm 40
+$ time ./iwasm -f fib /workspaces/wasm-micro-runtime/test/fib32.wasm 40
 0x6197ecb:i32
-real    0m6.340s
+real    0m0.671s
 ```
 
 # Build JIT
 
-cd /workspaces/wasm-micro-runtime/
-
-cd product-mini/platforms/linux/
+cd /workspaces/wasm-micro-runtime/product-mini/platforms/linux/
 
 sudo apt install python3-requests
 
 ./build_llvm.sh
 
-rm -rf build
-
-mkdir build && cd build
+mkdir build_jit && cd build_jit
 
 cmake .. -DWAMR_BUILD_JIT=1
 
 make
 
-cd /workspaces/wasm-micro-runtime/test
+ls -lh iwasm
+
+> 41M
 
 ```
-$ time ../product-mini/platforms/linux/build/iwasm -f fib fib32.wasm 40
+$ time ./iwasm -f fib /workspaces/wasm-micro-runtime/test/fib32.wasm 40
 0x6197ecb:i32
 real    0m0.671s
 ```
@@ -59,18 +57,20 @@ real    0m0.671s
 
 cd /workspaces/wasm-micro-runtime/product-mini/platforms/linux/
 
-rm -rf build
+rm -rf build_fastjit
 
-mkdir build && cd build
+mkdir build_fastjit && cd build_fastjit
 
 cmake .. -DWAMR_BUILD_FAST_JIT=1
 
 make
 
-cd /workspaces/wasm-micro-runtime/test
+ls -lh iwasm
+
+> 714K 
 
 ```
-$ time ../product-mini/platforms/linux/build/iwasm -f fib fib32.wasm 40
+$ time ./iwasm -f fib /workspaces/wasm-micro-runtime/test/fib32.wasm 40
 0x6197ecb:i32
 real    0m1.558s
 ```
