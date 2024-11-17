@@ -25,7 +25,7 @@ ls -lh iwasm
 ```
 $ time ./iwasm -f fib /workspaces/wasm-micro-runtime/test/fib32.wasm 40
 0x6197ecb:i32
-real    0m0.671s
+real    0m6.340s
 ```
 
 # Build JIT
